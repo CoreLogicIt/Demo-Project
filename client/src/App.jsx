@@ -11,30 +11,6 @@ import Payment from "./pages/dashboard/payment/Payment";
 import "./App.css";
 import Content from "./pages/dashboard/content/Content";
 
-import { Button } from "@mui/material";
-
-import axios from "axios";
-
-const addAClient = async () => {
-  const clientData = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "fk@gmail.com",
-    password: "secret123",
-    phoneNum: "4523432434",
-    package: "lawayer",
-    paymentStatus: "unpaid",
-  };
-
-  const baseUrl = `http://localhost:7088`;
-
-  try {
-    const { data } = await axios.post(`${baseUrl}/Client`, clientData);
-    console.log(data);
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 function App() {
   return (
@@ -51,7 +27,6 @@ function App() {
         <Route path="/authentication/login" element={<Login />} />
       </Routes>
 
-      <Button type="button" onClick={addAClient}></Button>
     </div>
   );
 }

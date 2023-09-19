@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState,useCallback } from "react";
+import axios from "axios";
 
 import PropTypes from "prop-types";
 
@@ -87,14 +88,14 @@ function Menu(props) {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = useCallback((e) => {
     e.preventDefault();
     console.log(formData);
-  };
+  },[formData]);
 
   const navigate = useNavigate();
 
-  const handleMenuClick = (id, text) => {
+  const handleMenuClick = useCallback((id, text) => {
     if (id) {
       setMenusData((prevMenuData) => {
         return prevMenuData.map((menu) => {
@@ -104,7 +105,6 @@ function Menu(props) {
         });
       });
     }
-
     // handling navigation
     if (text === "Dashboard") {
       navigate("/");
@@ -117,7 +117,29 @@ function Menu(props) {
     }else if (text === "Payment") {
       navigate("/payment");
     }
+  },[menusData]);
+
+  const addAClient = async () => {
+    const clientData = {
+      firstName: "John",
+      lastName: "Doe",
+      email: "fk@gmail.com",
+      password: "secret123",
+      phoneNum: "4523432434",
+      package: "lawayer",
+      paymentStatus: "unpaid",
+    };
+  
+    const baseUrl = `http://localhost:7088`;
+  
+    try {
+      const { data } = await axios.post(`${baseUrl}/Client`, clientData);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -353,6 +375,10 @@ function Menu(props) {
               width: "20%",
             }}
           >
+
+            <Button type="button" onClick={addAClient}>
+               Test
+            </Button>
             <Button
               sx={{
                 background: "aliceblue",
