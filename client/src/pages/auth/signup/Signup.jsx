@@ -18,7 +18,6 @@ import {
   SignupPageContainer,
   TermsAndConditionText,
 } from "./SignupStyles";
-import { useUserData } from "../../../hooks/useUserData";
 
 const topTextStyles = {
   color: "whitesmoke",
@@ -46,10 +45,6 @@ const SignInTextStyle = {
 };
 
 const Signup = () => {
-
-  const { data, isLoading, error } = useUserData();
-
-  console.log(data)
 
   return (
     <Box className="center-x">
