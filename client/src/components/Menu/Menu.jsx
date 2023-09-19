@@ -127,10 +127,10 @@ function Menu(props) {
       password: "secret123",
       phoneNum: "4523432434",
       package: "lawayer",
-      paymentStatus: "unpaid",
+      paymentStatus: 1,
     };
   
-    const baseUrl = `http://localhost:7088`;
+    const baseUrl = `https://localhost:7088`;
   
     try {
       const { data } = await axios.post(`${baseUrl}/Client`, clientData);
