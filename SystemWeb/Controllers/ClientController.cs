@@ -1,63 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
 using SystemWeb.IAPIMailService;
 using SystemWeb.Models;
 using SystemWeb.Resources;
 using SystemWeb.Service;
 
 namespace SystemWeb.Controllers
-{
+{   
     [Route("[controller]")]
     [ApiController]
+    [EnableCors]
     public class ClientController : Controller
     {
-       
-        
-            private readonly IAPIMail _apiMailService;
+
+        private readonly SmtpSettings _smtpSettings;
+        private readonly IAPIMail _apiMailService;
             private readonly IStripeService _stripeService;
 
         //injecting the IMailService into the constructor
-        public ClientController(IAPIMail apiMailService, IStripeService stripeService)
+        public ClientController(IAPIMail apiMailService, IStripeService stripeService, IConfiguration configuration)
             {
                 _stripeService = stripeService;
                 _apiMailService = apiMailService;
-            }
+            _smtpSettings = configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+        }
 
-
+        // Allow CORS for all origins. (Caution!)
+        // Allow CORS for all origins. (Caution!)
+      
         [HttpPost]
-        public async Task<IActionResult> CreateClient([FromBody] Client client)
+        public async Task<IActionResult> CreateClient( Client client)
         {
+            
             try
             {
                 // Check if the payment is completed
                 if (client.PaymentStatus == PaymentStatus.Paid)
                 {
-                    // Payment is completed, send an email with an attachment
-                    var mailData = new MailData
-                    { 
-                        EmailToId =  client.Email,
-                        EmailSubject = "Welcome to Our Website",
-                        EmailBody = $"Hello, {client.FirstName}! Thank you for joining our website. You Have Selected {client.Package} & Payment Details"
+                    await _apiMailService.SendWelcomeEmailAsync(client.Email, client.FirstName, client.Package, client.PaymentStatus);
+                    await _apiMailService.SendDashboardLoginEmailAsync(client.Email, client.FirstName, client.Email, client.Password);
 
-
-                    };
-                    var dashboardMailData = new MailData
-                    {
-                        EmailToId = client.Email,
-                        EmailSubject = "Your Dashboard Login Credentials",
-                        EmailBody = $"Hello, {client.FirstName}!\n\n" +
-                            $"Here are your login credentials for our dashboard:\n" +
-                            $"Username: {client.Email}\n" +
-                            $"Password: {client.Password}\n\n" +
-                            $"You can access the dashboard at http://localhost/dashboard"
-                    };
-
-                    // Call your email service to send the email with attachment
-                    var emailSent1 =  _apiMailService.SendMailAsync(mailData);
-                    var emailSent2 =  _apiMailService.SendMailAsync(dashboardMailData);
-
-                    await Task.WhenAll(emailSent1, emailSent2);
-
-                    if (emailSent1.Result && emailSent2.Result)
+                    if (ModelState.IsValid) 
                     {
                         // Email sent successfully
                         return Ok("Payment completed, and email sent with attachment.");

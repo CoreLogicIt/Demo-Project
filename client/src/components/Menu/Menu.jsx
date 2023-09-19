@@ -139,8 +139,8 @@ function Menu(props) {
     const baseUrl = `https://localhost:7088`;
 
     try {
-      const { data } = await axios.post(`${baseUrl}/Client`, clientData, {
-        withCredentials: true,
+      const { data } = await axios.post(`${baseUrl}/Client`, clientData,{
+        withCredentials:true
       });
       console.log(data);
     } catch (err) {

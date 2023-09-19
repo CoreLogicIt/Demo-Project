@@ -8,9 +8,10 @@ namespace SystemWeb.IAPIMailService
             Task<bool> SendMailAsync(MailData mailData);
             Task<bool> SendHTMLMailAsync(HTMLMailData htmlMailData);
             Task<bool> SendMailWithAttachmentsAsync(MailDataWithAttachment mailDataWithAttachment);
-        
-           
-        
+
+           Task SendWelcomeEmailAsync(string toEmail, string firstName, string package, PaymentStatus paymentStatus);
+            Task SendDashboardLoginEmailAsync(string toEmail, string firstName, string username, string password);
+
 
     }
 }
