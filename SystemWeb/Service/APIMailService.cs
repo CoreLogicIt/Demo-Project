@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Mail;
 using SystemWeb.IAPIMailService;
 using SystemWeb.Models;
@@ -9,11 +10,12 @@ public class APIMailService : IAPIMail
 {
     private readonly MailSettings _mailSettings;
     private readonly HttpClient _httpClient;
-
-    public APIMailService(IOptions<MailSettings> mailSettingsOptions, IHttpClientFactory httpClientFactory)
+    private readonly SmtpSettings _smtpSettings;
+    public APIMailService(IOptions<MailSettings> mailSettingsOptions, IHttpClientFactory httpClientFactory, IOptions<SmtpSettings> smtpSettings)
     {
         _mailSettings = mailSettingsOptions.Value;
         _httpClient = httpClientFactory.CreateClient("MailTrapApiClient");
+        _smtpSettings = smtpSettings.Value;
     }
 
     public async Task<bool> SendHTMLMailAsync(HTMLMailData htmlMailData)
@@ -115,5 +117,51 @@ public class APIMailService : IAPIMail
         return false;
     }
 
-   
+    public async Task SendWelcomeEmailAsync(string toEmail, string firstName, string package, PaymentStatus paymentStatus)
+    {
+        using (var smtpClient = new SmtpClient(_smtpSettings.SmtpServer)
+        {
+            Port = _smtpSettings.SmtpPort,
+            Credentials = new NetworkCredential(_smtpSettings.SmtpUsername, _smtpSettings.SmtpPassword),
+            EnableSsl = true,
+        })
+        {
+            var message = new MailMessage
+            {
+                From = new MailAddress(_smtpSettings.SmtpUsername),
+                Subject = "Welcome To our Family",
+                Body = $"<html><body> Hello, {firstName}! Thank you for joining our website. You Have Selected {package} & Payment Details {paymentStatus}</body></html>",
+                IsBodyHtml = true,
+            };
+
+            message.To.Add(new MailAddress(toEmail));
+            await smtpClient.SendMailAsync(message);
+        }
+    }
+
+    public async Task SendDashboardLoginEmailAsync(string toEmail, string firstName, string username, string password)
+    {
+        using (var smtpClient = new SmtpClient(_smtpSettings.SmtpServer)
+        {
+            Port = _smtpSettings.SmtpPort,
+            Credentials = new NetworkCredential(_smtpSettings.SmtpUsername, _smtpSettings.SmtpPassword),
+            EnableSsl = true,
+        })
+        {
+            var message = new MailMessage
+            {
+                From = new MailAddress(_smtpSettings.SmtpUsername),
+                Subject = "Your Dashboard Login Credentials",
+                Body = $"Hello, {firstName}!\n\n" +
+                        $"Here are your login credentials for our dashboard:\n" +
+                        $"Username: {username}\n" +
+                        $"Password: {password}\n\n" +
+                        $"You can access the dashboard at http://127.0.0.1:3001",
+            };
+
+            message.To.Add(new MailAddress(toEmail));
+            await smtpClient.SendMailAsync(message);
+        }
+    }
 }
+   
