@@ -52,10 +52,12 @@ namespace SystemWeb.Controllers
                     };
 
                     // Call your email service to send the email with attachment
-                    bool emailSent1 = await _apiMailService.SendMailAsync(mailData);
-                    bool emailSent2 = await _apiMailService.SendMailAsync(dashboardMailData);
+                    var emailSent1 =  _apiMailService.SendMailAsync(mailData);
+                    var emailSent2 =  _apiMailService.SendMailAsync(dashboardMailData);
 
-                    if (emailSent1)
+                    await Task.WhenAll(emailSent1, emailSent2);
+
+                    if (emailSent1.Result && emailSent2.Result)
                     {
                         // Email sent successfully
                         return Ok("Payment completed, and email sent with attachment.");
