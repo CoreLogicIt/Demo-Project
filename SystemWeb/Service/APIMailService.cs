@@ -165,7 +165,7 @@ public class APIMailService : IAPIMail
         }
     }
 
-    public async Task SendPaymentDetails(string toEmail, string firstName, string package) 
+    public async Task SendPaymentDetails(string toEmail, string firstName, string package, string paymentLink) 
     {
         {
             using (var smtpClient = new SmtpClient(_smtpSettings.SmtpServer)
@@ -181,7 +181,7 @@ public class APIMailService : IAPIMail
                     Subject = "Payment Notifcation ",
                     Body = $"Hello, {firstName}!\n\n" +
                             $"Here are our Payment  link for our dashboard:\n" +
-                            $"Stripe Payment link http://127.0.0.1:3001",
+                            $"{paymentLink}",
                 };
 
                 message.To.Add(new MailAddress(toEmail));

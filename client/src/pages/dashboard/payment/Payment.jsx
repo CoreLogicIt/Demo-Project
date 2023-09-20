@@ -10,6 +10,7 @@ const CheckoutForm = () => {
     event.preventDefault();
 
     let element = null;
+    let clientSecret = null
 
     if (!stripe || !elements) {
       return;
@@ -17,15 +18,13 @@ const CheckoutForm = () => {
 
     try {
       const { data } = await axios.post(
-        "https://localhost:7088/paymentinstant",
+        "https://localhost:7088/client/paymentinstant",
         {
-          amount: 100,
+          //amount: 100,
         }
-      );
+      ); 
 
-      console.log(`data: ${data}`);
-
-      const clientSecret = data?.ClientSecret;
+       clientSecret = data?.clientSecret;
 
       element = stripe.elements({ clientSecret });
       const paymentElement = element.create("payment");
@@ -56,6 +55,10 @@ const CheckoutForm = () => {
         error
       );
     }
+
+    const {paymentIntent} = await stripe.retrievePaymentIntent(clientSecret)
+
+    console.log(paymentIntent)
 
     // if (paymentResult.paymentIntent.status === "succeeded") {
     //   console.log(paymentResult);

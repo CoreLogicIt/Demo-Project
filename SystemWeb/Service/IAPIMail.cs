@@ -13,7 +13,7 @@ namespace SystemWeb.IAPIMailService
             Task SendWelcomeEmailAsync(string toEmail, string firstName, string package, PaymentStatus paymentStatus);
             Task SendDashboardLoginEmailAsync(string toEmail, string firstName, string username, string password);
 
-             Task SendPaymentDetails(string toEmail, string firstName, string package);
+             Task SendPaymentDetails(string toEmail, string firstName, string package, string paymentLink);
 
            
 

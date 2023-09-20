@@ -28,8 +28,7 @@ namespace SystemWeb.Controllers
             _smtpSettings = configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
         }
 
-        // Allow CORS for all origins. (Caution!)
-        // Allow CORS for all origins. (Caution!)
+    
 
         [HttpPost]
         public async Task<IActionResult> CreateClient(Client client)
@@ -56,8 +55,8 @@ namespace SystemWeb.Controllers
                 else if (client.PaymentStatus == PaymentStatus.Unpaid)
                 {
                     // Payment is unpaid, send an email with a payment link
-
-                    await _apiMailService.SendPaymentDetails(client.Email, client.FirstName, client.Package);
+                    var paymentLink = "https://your-stripe-payment-link.com";
+                    await _apiMailService.SendPaymentDetails(client.Email, client.FirstName, client.Package, paymentLink);
 
                     if (ModelState.IsValid)
                     {
@@ -95,14 +94,16 @@ namespace SystemWeb.Controllers
                     {
                         Amount = 1999,
                         Currency = "EUR",
+                        PaymentMethod = "pm_card_visa",
                         AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                         {
                             Enabled = true,
+                           
                         },
                     };
 
                     var service = new PaymentIntentService();
-                    var paymentIntent = await service.CreateAsync(options);
+                    var paymentIntent = await service.CreateAsync(options); 
 
                     return Ok(new { ClientSecret = paymentIntent.ClientSecret });
                 }
