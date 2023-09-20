@@ -1,4 +1,4 @@
-﻿namespace SystemWeb.Models
+﻿namespace SystemWeb.Mail
 {
     public class SmtpSettings
     {
