@@ -9,26 +9,30 @@ const CheckoutForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    let element = null;
+
     if (!stripe || !elements) {
       return;
     }
 
-    try{
-      const { data } = await axios.post("https://localhost:7088/paymentinstant", {
-        amount: 100,
-      });
-  
-      console.log(`data: ${data}`)
-  
+    try {
+      const { data } = await axios.post(
+        "https://localhost:7088/paymentinstant",
+        {
+          amount: 100,
+        }
+      );
+
+      console.log(`data: ${data}`);
+
       const clientSecret = data?.ClientSecret;
-  
-      const element = stripe.elements({ clientSecret });
+
+      element = stripe.elements({ clientSecret });
       const paymentElement = element.create("payment");
       paymentElement.mount("#payment-element");
-    }catch(err){
-        console.log(err)
-    } 
- 
+    } catch (err) {
+      console.log(err);
+    }
 
     // const paymentResult = await stripe.confirmCardPayment(clientSecret, {
     //   payment_method: {
@@ -39,15 +43,18 @@ const CheckoutForm = () => {
     //   },
     // });
 
-    const {error} = await stripe.confirmPayment({
-      elements:element,
-      confirmParams:{
-        return_url:"http://127.0.0.1/3001/complete"
-      }
-    })
+    const { error } = await stripe.confirmPayment({
+      elements: element,
+      confirmParams: {
+        return_url: "http://127.0.0.1/3001/complete",
+      },
+    });
 
-    if(error) {
-      console.log("failed to redirect page or complete page is not made yet",error)
+    if (error) {
+      console.log(
+        "failed to redirect page or complete page is not made yet",
+        error
+      );
     }
 
     // if (paymentResult.paymentIntent.status === "succeeded") {
