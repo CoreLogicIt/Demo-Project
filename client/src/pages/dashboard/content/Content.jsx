@@ -2,8 +2,10 @@ import React from "react";
 
 import { Card, Box, Typography } from "../../../constants/MuiConstants";
 
-import { topDealUsers, chartBoxUser } from "../../../data";
+import { topDealUsers, chartBoxUser, chartBoxProduct, barChartBoxRevenue, chartBoxRevenue } from "../../../data";
 import ChartBox from "../../../components/ChartBox/ChartBox";
+import PieChartBox from "../../../components/PieChartBox/PieChatBox";
+import BarChartBox from "../../../components/BarChatBox/BarChartBox";
 
 const Content = () => {
   return (
@@ -94,43 +96,32 @@ const Content = () => {
           gridRow: "span 1",
         }}
       >
-        <ChartBox {...chartBoxUser} />
+        <ChartBox {...chartBoxProduct} />
       </Box>
       <Box
         sx={{
-          background:
-            "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
-          color: "white",
-          gridColumn: "span 4",
+          gridColumn: "span 2",
           gridRow: "span 2",
-          border: "1px solid grey",
         }}
       >
-        4
+        <PieChartBox />
       </Box>
       <Box
         sx={{
-          background:
-            "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
-          color: "white",
-          gridColumn: "span 4",
-          gridRow: "span 2 ",
-          border: "1px solid grey",
+          gridColumn: "span 2",
+          gridRow: "span 1 ",
         }}
       >
-        5
+    
+        <ChartBox {...chartBoxRevenue} />
       </Box>
       <Box
         sx={{
-          background:
-            "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
-          color: "white",
-          gridColumn: "span 4",
-          gridRow: "span 2 ",
-          border: "1px solid grey",
+          gridColumn: "span 2",
+          gridRow: "span 1 ",
         }}
       >
-        6
+         <BarChartBox {...barChartBoxRevenue}/>
       </Box>
     </Box>
   );

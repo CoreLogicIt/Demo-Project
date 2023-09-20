@@ -1,45 +1,73 @@
-import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+
+import axios from "axios";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
   const handleSubmit = async (event) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
     event.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    const result = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
-      elements,
-      confirmParams: {
-        return_url: "https://example.com/order/123/complete",
-      },
-    });
+    try{
+      const { data } = await axios.post("https://localhost:7088/paymentinstant", {
+        amount: 100,
+      });
+  
+      console.log(`data: ${data}`)
+  
+      const clientSecret = data?.ClientSecret;
+  
+      const element = stripe.elements({ clientSecret });
+      const paymentElement = element.create("payment");
+      paymentElement.mount("#payment-element");
+    }catch(err){
+        console.log(err)
+    } 
+ 
 
-    if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
-    } else {
-      // Your customer will be redirected to your `return_url`. For some payment
-      // methods like iDEAL, your customer will be redirected to an intermediate
-      // site first to authorize the payment, then redirected to the `return_url`.
+    // const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+    //   payment_method: {
+    //     card: elements.getElement(CardElement),
+    //     billing_details: {
+    //       name: "faraz ahmed",
+    //     },
+    //   },
+    // });
+
+    const {error} = await stripe.confirmPayment({
+      elements:element,
+      confirmParams:{
+        return_url:"http://127.0.0.1/3001/complete"
+      }
+    })
+
+    if(error) {
+      console.log("failed to redirect page or complete page is not made yet",error)
     }
+
+    // if (paymentResult.paymentIntent.status === "succeeded") {
+    //   console.log(paymentResult);
+    //   alert("payment made successfully!");
+    // }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* <PaymentElement  />
-      <button disabled={!stripe}>Submit</button> */}
-      Payment
-    </form>
-  )
+    <>
+      <h1>Make a Payment</h1>
+      <form onSubmit={handleSubmit}>
+        {/* <CardElement /> */}
+        <form action="" id="payment-form">
+          <div id="payment-element"></div>
+        </form>
+        <button disabled={!stripe}>Submit</button>
+      </form>
+    </>
+  );
 };
 
 export default CheckoutForm;
