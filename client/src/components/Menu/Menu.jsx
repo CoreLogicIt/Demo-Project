@@ -1,4 +1,4 @@
-import { useState,useCallback } from "react";
+import { useState, useCallback } from "react";
 import axios from "axios";
 
 import PropTypes from "prop-types";
@@ -88,36 +88,42 @@ function Menu(props) {
     }
   };
 
-  const handleFormSubmit = useCallback((e) => {
-    e.preventDefault();
-    console.log(formData);
-  },[formData]);
+  const handleFormSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(formData);
+    },
+    [formData]
+  );
 
   const navigate = useNavigate();
 
-  const handleMenuClick = useCallback((id, text) => {
-    if (id) {
-      setMenusData((prevMenuData) => {
-        return prevMenuData.map((menu) => {
-          return menu.id === id
-            ? { ...menu, active: true }
-            : { ...menu, active: false };
+  const handleMenuClick = useCallback(
+    (id, text) => {
+      if (id) {
+        setMenusData((prevMenuData) => {
+          return prevMenuData.map((menu) => {
+            return menu.id === id
+              ? { ...menu, active: true }
+              : { ...menu, active: false };
+          });
         });
-      });
-    }
-    // handling navigation
-    if (text === "Dashboard") {
-      navigate("/");
-    } else if (text === "Sign Up") {
-      navigate("/authentication/signup");
-    } else if (text === "Sign In") {
-      navigate("/authentication/login");
-    } else if (text === "Profile") {
-      navigate("/profile");
-    }else if (text === "Payment") {
-      navigate("/payment");
-    }
-  },[menusData]);
+      }
+      // handling navigation
+      if (text === "Dashboard") {
+        navigate("/");
+      } else if (text === "Sign Up") {
+        navigate("/authentication/signup");
+      } else if (text === "Sign In") {
+        navigate("/authentication/login");
+      } else if (text === "Profile") {
+        navigate("/profile");
+      } else if (text === "Payment") {
+        navigate("/payment");
+      }
+    },
+    [menusData]
+  );
 
   const addAClient = async () => {
     const clientData = {
@@ -129,9 +135,9 @@ function Menu(props) {
       package: "lawayer",
       paymentStatus: 1,
     };
-  
+
     const baseUrl = `https://localhost:7088`;
-  
+
     try {
       const { data } = await axios.post(`${baseUrl}/Client`, clientData,{
         withCredentials:true
@@ -141,7 +147,6 @@ function Menu(props) {
       console.log(err);
     }
   };
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -281,41 +286,36 @@ function Menu(props) {
                     justifyContent={"space-between"}
                     alignItems={"center"}
                   >
-              
-                      <Select
-                   
-                        required
-                        sx={{ width: "45%", bgcolor: "whitesmoke" }}
-                        value={formData.packages}
-                        label="Packages"
-                        variant="standard"
-                        multiple
-                        onChange={handleChange}
-                        renderValue={(selected) => selected.join(", ")}
-                      >
-                        {packages.map((packageName) => (
-                          <MenuItem key={packageName} value={packageName}>
-                            {packageName}
-                          </MenuItem>
-                        ))}
-                      </Select>
-              
+                    <Select
+                      required
+                      sx={{ width: "45%", bgcolor: "whitesmoke" }}
+                      value={formData.packages}
+                      label="Packages"
+                      variant="standard"
+                      multiple
+                      onChange={handleChange}
+                      renderValue={(selected) => selected.join(", ")}
+                    >
+                      {packages.map((packageName) => (
+                        <MenuItem key={packageName} value={packageName}>
+                          {packageName}
+                        </MenuItem>
+                      ))}
+                    </Select>
 
-             
-                      <Select
-                        required
-                        sx={{ width: "45%", bgcolor: "whitesmoke" }}
-                        value={formData.payment}
-                        label="Payment"
-                        variant="standard"
-                        name="payment"
-                        onChange={handleChange}
-                      >
-                        <MenuItem value={"paid"}>paid</MenuItem>
-                        <MenuItem value={"unpaid"}>unpaid</MenuItem>
-                      </Select>
-                    </Box>
-            
+                    <Select
+                      required
+                      sx={{ width: "45%", bgcolor: "whitesmoke" }}
+                      value={formData.payment}
+                      label="Payment"
+                      variant="standard"
+                      name="payment"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={"paid"}>paid</MenuItem>
+                      <MenuItem value={"unpaid"}>unpaid</MenuItem>
+                    </Select>
+                  </Box>
                 </Box>
               </DialogContent>
               <DialogActions>
@@ -363,6 +363,7 @@ function Menu(props) {
             background:
               "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
             color: "white",
+            borderBottom: "1px solid grey",
           }}
         >
           <Box>
@@ -377,10 +378,6 @@ function Menu(props) {
               width: "20%",
             }}
           >
-
-            <Button type="button" onClick={addAClient}>
-               Test
-            </Button>
             <Button
               sx={{
                 background: "aliceblue",
@@ -438,6 +435,7 @@ function Menu(props) {
               background:
                 "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
               color: "aliceblue",
+              borderRight: "1px solid grey",
             },
           }}
           open
