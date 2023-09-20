@@ -17,7 +17,7 @@ const CheckoutForm = () => {
 
     try {
       const { data } = await axios.post(
-        "https://localhost:7088/paymentinstant",
+        "https://localhost:7088/client/paymentinstant",
         {
           amount: 100,
         }
@@ -25,7 +25,7 @@ const CheckoutForm = () => {
 
       console.log(`data: ${data}`);
 
-      const clientSecret = data?.ClientSecret;
+      const clientSecret = data?.clientSecret;
 
       element = stripe.elements({ clientSecret });
       const paymentElement = element.create("payment");
