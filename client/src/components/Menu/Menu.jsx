@@ -127,11 +127,11 @@ function Menu(props) {
 
   const addAClient = async () => {
     const clientData = {
-      firstName: "John",
-      lastName: "Doe",
-      email: "fk@gmail.com",
+      firstName: "Faraz",
+      lastName: "Ahmed",
+      email: "farazahmedk955@@gmail.com",
       password: "secret123",
-      phoneNum: "4523432434",
+      phoneNum: "4523432",
       package: "lawayer",
       paymentStatus: 1,
     };
@@ -386,7 +386,8 @@ function Menu(props) {
               }}
               variant="contained"
               startIcon={<Add />}
-              onClick={handleClickOpen}
+              // onClick={handleClickOpen}
+              onClick={addAClient}
             >
               Add a Client
             </Button>

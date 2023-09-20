@@ -12,14 +12,14 @@ const stripePromise = loadStripe('pk_test_51MYkTLALrjdA4aW4930DtUbITAjULahvthDzG
 
 import { QueryClientProvider, client } from "./utils/query.config.js";
 
-// const options = {
-//   // passing the client secret obtained from the server
-//   clientSecret: "",
-// };
+const options = {
+  // passing the client secret obtained from the server
+  clientSecret: "sk_test_51MYkTLALrjdA4aW4nfcAuUyyCvuZDKp9So8gqSHLSagaQVHMpv3UyI05QCtkJI0TGlDaXni0erheTrr2IpiIofB800JnpwYnha",
+};
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Elements stripe={stripePromise}> 
+  <Elements stripe={stripePromise} > 
   <QueryClientProvider client={client} >
     <BrowserRouter>
       <App />

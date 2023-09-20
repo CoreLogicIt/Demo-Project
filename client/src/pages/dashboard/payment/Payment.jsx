@@ -1,4 +1,8 @@
-import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -35,11 +39,10 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* <PaymentElement  />
-      <button disabled={!stripe}>Submit</button> */}
-      Payment
+      <PaymentElement />
+      <button disabled={!stripe}>Submit</button> * Payment
     </form>
-  )
+  );
 };
 
 export default CheckoutForm;

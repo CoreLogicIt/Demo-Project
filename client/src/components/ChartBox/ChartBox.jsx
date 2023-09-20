@@ -2,12 +2,11 @@ import React from "react";
 
 import { Typography, Box, Card } from "../../constants/MuiConstants";
 
-import UserIcon from "../../assets/images/usericon.svg";
+// import UserIcon from "../../assets/images/usericon.svg";
 
 import { ResponsiveContainer, LineChart, Line, Tooltip } from "recharts";
 
 const ChartBox = (props) => {
-  console.log(props);
 
   return (
     <Card
@@ -25,9 +24,9 @@ const ChartBox = (props) => {
           alignItems: "center",
         }}
       >
-        <img width={"40px"} src={UserIcon} alt="user" />
+        <img width={"40px"} src={props.icon} alt="user" />
         <Typography component={"span"} fontWeight={"600"} fontFamily={"Inter"}>
-          Total Users
+           {props.title}
         </Typography>
       </Box>
 
@@ -44,7 +43,7 @@ const ChartBox = (props) => {
               dataKey={props.dataKey}
               stroke={props.color}
               strokeWidth={2}
-              dot={false}
+              dot={true}
             />
           </LineChart>
         </ResponsiveContainer>
@@ -56,7 +55,7 @@ const ChartBox = (props) => {
         fontWeight={"600"}
         fontFamily={"Inter"}
       >
-        200
+        {props.number}
       </Typography>
       <Box
         sx={{
@@ -67,7 +66,7 @@ const ChartBox = (props) => {
       >
         <Typography
           paragraph
-          color="rgb(136, 132, 216)"
+          color={ props.color }
           fontWeight={"300"}
           fontFamily={"Inter"}
         >
@@ -76,14 +75,14 @@ const ChartBox = (props) => {
         <Box>
           <Typography
             textAlign={"right"}
-            color={"limegreen"}
+            color={props.percentage < 0 ? "tomato" : "limegreen"}
             margin={"0"}
             paragraph
             fontSize={".9rem"}
             fontWeight={"600"}
             fontFamily={"Inter"}
           >
-            45%
+            {props.percentage}%
           </Typography>
           <Typography
             margin={"0"}
