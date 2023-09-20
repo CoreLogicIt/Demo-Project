@@ -10,6 +10,7 @@ const CheckoutForm = () => {
     event.preventDefault();
 
     let element = null;
+    let clientSecret = null
 
     if (!stripe || !elements) {
       return;
@@ -17,15 +18,13 @@ const CheckoutForm = () => {
 
     try {
       const { data } = await axios.post(
-        "https://localhost:7088/paymentinstant",
+        "https://localhost:7088/client/paymentinstant",
         {
           amount: 100,
         }
       );
 
-      console.log(`data: ${data}`);
-
-      const clientSecret = data?.ClientSecret;
+      clientSecret = data?.clientSecret;
 
       element = stripe.elements({ clientSecret });
       const paymentElement = element.create("payment");
@@ -46,7 +45,7 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements: element,
       confirmParams: {
-        return_url: "http://127.0.0.1/3001/complete",
+        return_url: `http://127.0.0.1/payment/complete`,
       },
     });
 
@@ -56,6 +55,10 @@ const CheckoutForm = () => {
         error
       );
     }
+
+    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+    console.log(paymentIntent);
 
     // if (paymentResult.paymentIntent.status === "succeeded") {
     //   console.log(paymentResult);
@@ -69,7 +72,7 @@ const CheckoutForm = () => {
       <form onSubmit={handleSubmit}>
         {/* <CardElement /> */}
         <form action="" id="payment-form">
-          <div id="payment-element"></div>
+          <div style={{ width: "500px" }} id="payment-element"></div>
         </form>
         <button disabled={!stripe}>Submit</button>
       </form>
