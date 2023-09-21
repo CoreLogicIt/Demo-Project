@@ -120,6 +120,8 @@ function Menu(props) {
         navigate("/profile");
       } else if (text === "Payment") {
         navigate("/payment");
+      } else if ("/packages") {
+        navigate("/packages");
       }
     },
     [menusData]
@@ -139,8 +141,8 @@ function Menu(props) {
     const baseUrl = `https://localhost:7088`;
 
     try {
-      const { data } = await axios.post(`${baseUrl}/Client`, clientData,{
-        withCredentials:true
+      const { data } = await axios.post(`${baseUrl}/Client`, clientData, {
+        withCredentials: true,
       });
       console.log(data);
     } catch (err) {
@@ -182,6 +184,7 @@ function Menu(props) {
           <ListItem
             key={menu.id}
             disablePadding
+            sx={{ my: "1em" }}
             onClick={() => handleMenuClick(menu.id, menu.title)}
           >
             <ListItemButton>

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Mail;
 using SystemWeb.IAPIMailService;
+using SystemWeb.Mail;
 using SystemWeb.Models;
 
 public class APIMailService : IAPIMail
@@ -161,6 +162,31 @@ public class APIMailService : IAPIMail
 
             message.To.Add(new MailAddress(toEmail));
             await smtpClient.SendMailAsync(message);
+        }
+    }
+
+    public async Task SendPaymentDetails(string toEmail, string firstName, string package, string paymentLink) 
+    {
+        {
+            using (var smtpClient = new SmtpClient(_smtpSettings.SmtpServer)
+            {
+                Port = _smtpSettings.SmtpPort,
+                Credentials = new NetworkCredential(_smtpSettings.SmtpUsername, _smtpSettings.SmtpPassword),
+                EnableSsl = true,
+            })
+            {
+                var message = new MailMessage
+                {
+                    From = new MailAddress(_smtpSettings.SmtpUsername),
+                    Subject = "Payment Notifcation ",
+                    Body = $"Hello, {firstName}!\n\n" +
+                            $"Here are our Payment  link for our dashboard:\n" +
+                            $"{paymentLink}",
+                };
+
+                message.To.Add(new MailAddress(toEmail));
+                await smtpClient.SendMailAsync(message);
+            }
         }
     }
 }
