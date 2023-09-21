@@ -133,7 +133,7 @@ function Menu(props) {
       password: "secret123",
       phoneNum: "4523432",
       package: "lawayer",
-      paymentStatus: 1,
+      paymentStatus: 0,
     };
 
     const baseUrl = `https://localhost:7088`;
