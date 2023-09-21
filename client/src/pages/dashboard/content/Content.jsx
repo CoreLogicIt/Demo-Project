@@ -117,8 +117,10 @@ const Content = () => {
       </Box>
       <Box
         sx={{
+
           gridColumn: "span 2",
           gridRow: "span 1 ",
+          border: "1px solid grey",
         }}
       >
          <BarChartBox {...barChartBoxRevenue}/>

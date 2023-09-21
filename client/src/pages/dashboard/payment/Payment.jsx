@@ -16,17 +16,21 @@ const CheckoutForm = () => {
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const { data } = axios.post(
+        const resp = await fetch(
           "https://localhost:7088/client/paymentinstant",
           {
-            amount: 1000,
-          },
-          {
-            withCredentials: true,
+            method: "post",
+            body: JSON.stringify({
+              amount: 1,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
         );
+        const data = await resp.json();
 
-        setClientSecret("pi_3NswOpJbGmGwd4KW04w6G8Uc_secret_ok0q1P7XWV37CflGc9krkKbgH");
+        setClientSecret(data.clientSecret);
       } catch (err) {
         console.log(err);
       }
