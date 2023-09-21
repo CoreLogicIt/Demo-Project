@@ -10,7 +10,7 @@ import Payment from "./pages/dashboard/payment/Payment";
 
 import "./App.css";
 import Content from "./pages/dashboard/content/Content";
-
+import Complete from "./pages/dashboard/payment/complete/Complete";
 
 function App() {
   return (
@@ -21,12 +21,12 @@ function App() {
             <Route path="/" element={<Content />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/payment/*" element={<Complete />} />
           </Route>
         </Route>
         <Route path="/authentication/signup" element={<Signup />} />
         <Route path="/authentication/login" element={<Login />} />
       </Routes>
-
     </div>
   );
 }

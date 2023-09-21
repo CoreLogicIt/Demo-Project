@@ -92,6 +92,7 @@ namespace SystemWeb.Controllers
 
                     var options = new PaymentIntentCreateOptions
                     {
+                        
                         Amount = 1999,
                         Currency = "EUR",
                         PaymentMethod = "pm_card_visa",
@@ -99,13 +100,18 @@ namespace SystemWeb.Controllers
                         {
                             Enabled = true,
                            
+                                                                       
                         },
+                        
                     };
+                    
 
                     var service = new PaymentIntentService();
-                    var paymentIntent = await service.CreateAsync(options); 
+                    var paymentIntent = await service.CreateAsync(options);
+                      
 
-                    return Ok(new { ClientSecret = paymentIntent.ClientSecret });
+
+                return Ok(new { ClientSecret = paymentIntent.ClientSecret });
                 }
                 catch (StripeException e)
                 {
@@ -115,7 +121,8 @@ namespace SystemWeb.Controllers
                 {
                     return StatusCode(500, "An error occurred while processing the request.");
                 }
-            }
+           
+        }
 
         
 
