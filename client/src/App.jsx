@@ -1,33 +1,41 @@
+import { lazy, Suspense } from "react";
+
 import { Routes, Route } from "react-router-dom";
 
-import Menu from "./components/Menu/Menu";
-
-import Dashboard from "./pages/dashboard/Dashboard";
-import Signup from "./pages/auth/signup/Signup";
-import Login from "./pages/auth/login/Login";
-import Profile from "./pages/dashboard/profile/Profile";
-import Payment from "./pages/dashboard/payment/Payment";
+const Menu = lazy(() => import("./components/Menu/Menu"));
+const Dashboard = lazy(() => import("./pages/dashboard/Dashboard"));
+const Signup = lazy(() => import("./pages/auth/signup/Signup"));
+const Login = lazy(() => import("./pages/auth/login/Login"));
+const Profile = lazy(() => import("./pages/dashboard/profile/Profile"));
+const Payment = lazy(() => import("./pages/dashboard/payment/Payment"));
 
 import "./App.css";
-import Content from "./pages/dashboard/content/Content";
-import Complete from "./pages/dashboard/payment/complete/Complete";
-
+const Content = lazy(() => import("./pages/dashboard/content/Content"));
+const Complete = lazy(() =>
+  import("./pages/dashboard/payment/complete/Complete")
+);
+const Packages = lazy(() => import("./pages/dashboard/packages/Packages.jsx"));
+const Package = lazy(() => import("./pages/dashboard/packages/Package.jsx"));
 function App() {
   return (
-    <div className="app-container">
-      <Routes>
-        <Route path="/" element={<Dashboard />}>
-          <Route path="/" element={<Menu />}>
-            <Route path="/" element={<Content />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/payment/*" element={<Complete />} />
+    <Suspense fallback={<div>loading</div>}>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<Dashboard />}>
+            <Route path="/" element={<Menu />}>
+              <Route path="/" element={<Content />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/packages" element={<Packages />} />
+              <Route path="/packages/:name" element={<Package />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/payment/*" element={<Complete />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="/authentication/signup" element={<Signup />} />
-        <Route path="/authentication/login" element={<Login />} />
-      </Routes>
-    </div>
+          <Route path="/authentication/signup" element={<Signup />} />
+          <Route path="/authentication/login" element={<Login />} />
+        </Routes>
+      </div>
+    </Suspense>
   );
 }
 

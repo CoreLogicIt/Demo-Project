@@ -3,6 +3,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LoginIcon from "@mui/icons-material/Login";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PaymentIcon from "@mui/icons-material/PaymentOutlined";
+import Inventory2Icon from '@mui/icons-material/Inventory2';
 
 
 export const menus = [
@@ -34,6 +35,12 @@ export const menus = [
     id: 5,
     title: "Payment",
     icon: <PaymentIcon sx={{fill:"white"}} />,
+    active: false,
+  },
+  {
+    id: 6,
+    title: "Packages",
+    icon: <Inventory2Icon sx={{fill:"white"}} />,
     active: false,
   },
 ];
