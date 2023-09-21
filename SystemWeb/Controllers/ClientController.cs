@@ -96,13 +96,14 @@ namespace SystemWeb.Controllers
                         Amount = 1999,
                         Currency = "EUR",
                         PaymentMethod = "pm_card_visa",
+
                         AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                         {
                             Enabled = true,
-                           
-                                                                       
+
+
                         },
-                        
+
                     };
                     
 

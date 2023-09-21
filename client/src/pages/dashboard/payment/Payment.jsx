@@ -71,7 +71,7 @@ const CheckoutForm = () => {
   useEffect(() => {
     const confirmPayment = async () =>  {
       const { error, paymentIntent } = await stripe.confirmPayment({
-        // elements: element,
+         //elements: element,
         confirmParams: {
           return_url: `http://127.0.0.1:3001/payment/complete`,
         },
@@ -90,6 +90,8 @@ const CheckoutForm = () => {
 
     clientSecret && confirmPayment()
   },[clientSecret])
+  
+  
 
   return (
     <>

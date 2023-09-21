@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Org.BouncyCastle.Asn1.Pkcs;
@@ -5,12 +6,17 @@ using Stripe;
 
 using System.Net;
 using System.Net.Mail;
+using SystemWeb.DbContent;
 using SystemWeb.IAPIMailService;
 using SystemWeb.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<DbConnect>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 builder.Services.AddTransient<IAPIMail, APIMailService>();
 
 
@@ -31,11 +37,11 @@ StripeConfiguration.ApiKey = builder.Configuration.GetValue<string>("StripeOptio
 
 
 builder.Services.AddControllers();
-var provider = builder.Services.BuildServiceProvider();
-var configuration = provider.GetRequiredService<IConfiguration>();
+//var provider = builder.Services.BuildServiceProvider();
+//var configuration = provider.GetRequiredService<IConfiguration>();
 builder.Services.AddCors(options =>
 {
-    var FrontendUrl = configuration.GetValue<string>("frontend_url");
+    var FrontendUrl = builder.Configuration.GetValue<string>("frontend_url");
     options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins(FrontendUrl).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
