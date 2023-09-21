@@ -14,8 +14,11 @@ const Content = lazy(() => import("./pages/dashboard/content/Content"));
 const Complete = lazy(() =>
   import("./pages/dashboard/payment/complete/Complete")
 );
-const Packages = lazy(() => import("./pages/dashboard/packages/Packages.jsx"));
-const Package = lazy(() => import("./pages/dashboard/packages/Package.jsx"));
+//const Packages = lazy(() => import("./pages/dashboard/packages/Packages"));
+//const Package = lazy(() => import("./pages/dashboard/packages/Package"));
+
+
+
 function App() {
   return (
     <Suspense fallback={<div>loading</div>}>
@@ -25,8 +28,8 @@ function App() {
             <Route path="/" element={<Menu />}>
               <Route path="/" element={<Content />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/packages" element={<Packages />} />
-              <Route path="/packages/:name" element={<Package />} />
+              {/* <Route path="/packages" element={<Packages />} />
+              <Route path="/packages/:name" element={<Package />} /> */}
               <Route path="/payment" element={<Payment />} />
               <Route path="/payment/*" element={<Complete />} />
             </Route>

@@ -26,10 +26,7 @@ const CheckoutForm = () => {
           }
         );
 
-        console.log(data?.clientSecret);
-        setClientSecret(
-          "pi_3NsvngJbGmGwd4KW1Bq35zER_secret_383L7QIl6E2lyH4J4IFZlnjH1"
-        );
+        setClientSecret("pi_3NswOpJbGmGwd4KW04w6G8Uc_secret_ok0q1P7XWV37CflGc9krkKbgH");
       } catch (err) {
         console.log(err);
       }
