@@ -32,11 +32,11 @@ builder.Services.AddScoped<IStripeService, StripeService>();
 
 
 builder.Services.AddControllers();
-var provider = builder.Services.BuildServiceProvider();
-var configuration = provider.GetRequiredService<IConfiguration>();
+//var provider = builder.Services.BuildServiceProvider();
+//var configuration = provider.GetRequiredService<IConfiguration>();
 builder.Services.AddCors(options =>
 {
-    var FrontendUrl = configuration.GetValue<string>("frontend_url");
+    var FrontendUrl = builder.Configuration.GetValue<string>("frontend_url");
     options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins(FrontendUrl).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
