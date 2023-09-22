@@ -84,7 +84,7 @@ namespace SystemWeb.Controllers
 
 
         [HttpPost("paymentinstant")]
-        public async Task<IActionResult> Payment()
+        public async Task<IActionResult> Payment([FromBody]Payment payment)
         {
                 try
                 {
@@ -93,7 +93,7 @@ namespace SystemWeb.Controllers
                     var options = new PaymentIntentCreateOptions
                     {
                         
-                        Amount = 1999,
+                        Amount = payment.amount,
                         Currency = "EUR",
                        PaymentMethod = "pm_card_visa",
 
