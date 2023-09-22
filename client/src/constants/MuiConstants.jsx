@@ -25,7 +25,9 @@ import {
   MenuItem,
   Card,
   CssBaseline,
-  InputLabel
+  InputLabel,
+  CardContent,
+  CardMedia
 } from "@mui/material";
 
 export {
@@ -55,5 +57,7 @@ export {
   MenuItem,
   Card,
   CssBaseline,
-  InputLabel
+  InputLabel,
+  CardContent,
+  CardMedia
 };

@@ -1,7 +1,9 @@
 import { useElements, useStripe } from "@stripe/react-stripe-js";
-import React from "react";
+import {lazy,Suspense} from "react";
 
 import { PaymentElement } from "@stripe/react-stripe-js";
+
+const SinglePackage = lazy(() => import("../packages/SinglePackage")) 
 
 const Checkout = () => {
   const stripe = useStripe();
@@ -23,7 +25,7 @@ const Checkout = () => {
             country: "Pakistan",
           },
         },
-        receipt_email: "weba6008@gmail.com"
+        receipt_email: "weba6008@gmail.com",
       },
     });
 
@@ -31,8 +33,7 @@ const Checkout = () => {
       console.log(done);
     }
 
-    if (error) console.log("oops")
-
+    if (error) console.log("oops");
   };
 
   return (
@@ -40,8 +41,19 @@ const Checkout = () => {
       <form id="payment-form" onSubmit={handlePayment}>
         <PaymentElement />
         <button>submit</button>
-        {/* <div id='payment-message'></div> */}
       </form>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "2em 0",
+        }}
+      >
+        <Suspense fallback={<div>loading</div>}>
+        <SinglePackage />
+        </Suspense>
+      </div>
     </div>
   );
 };
