@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import axios from "axios";
+// import axios from "axios";
 
 import PropTypes from "prop-types";
 
@@ -136,7 +136,7 @@ function Menu(props) {
       password: "secret123",
       phoneNum: "4523432",
       package: "lawayer",
-      paymentStatus: 0,
+      paymentStatus: 1,
     };
 
     const baseUrl = `https://localhost:7088`;

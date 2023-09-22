@@ -55,7 +55,7 @@ namespace SystemWeb.Controllers
                 else if (client.PaymentStatus == PaymentStatus.Unpaid)
                 {
                     // Payment is unpaid, send an email with a payment link
-                    var paymentLink = "https://your-stripe-payment-link.com";
+                    string paymentLink = "https://your-stripe-payment-link.com";
                     await _apiMailService.SendPaymentDetails(client.Email, client.FirstName, client.Package, paymentLink);
 
                     if (ModelState.IsValid)
@@ -73,12 +73,16 @@ namespace SystemWeb.Controllers
                 {
                     // Handle other PaymentStatus values if needed
                     return BadRequest("Invalid payment status.");
-                }
+                } 
             }
             catch (Exception ex)
             {
                 // Handle exceptions as needed
+<<<<<<< HEAD
                 return StatusCode(500, "An error occurred while processing the request today.");
+=======
+                return StatusCode(500, "An error occurred while processing the request .");
+>>>>>>> f58335a656c839478fbc00437d525683804fbd01
             }
         }
 
