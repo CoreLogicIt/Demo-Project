@@ -95,7 +95,7 @@ namespace SystemWeb.Controllers
                         
                         Amount = 1999,
                         Currency = "EUR",
-                        PaymentMethod = "pm_card_visa",
+                       PaymentMethod = "pm_card_visa",
 
                         AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                         {
@@ -112,7 +112,7 @@ namespace SystemWeb.Controllers
                       
 
 
-                return Ok(new { ClientSecret = paymentIntent.ClientSecret });
+                return Json(new { ClientSecret = paymentIntent.ClientSecret });
                 }
                 catch (StripeException e)
                 {

@@ -12,19 +12,27 @@ const Checkout = () => {
 
     if (!stripe || !elements) return;
 
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: `http://127.0.0.1:3001/payment/complete`,
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `http://127.0.0.1:3001/payment/complete`,
+        shipping: {
+          name: "Danerys Targaryan",
+          phone: "34325434",
+          address: {
+            country: "Pakistan",
+          },
         },
-      });
+        receipt_email: "weba6008@gmail.com"
+      },
+    });
 
-      if (paymentIntent && paymentIntent.status === "succeeded") {
-        console.log(done);
-      }
+    if (paymentIntent && paymentIntent.status === "succeeded") {
+      console.log(done);
+    }
 
-      if(error) console.log("oops")
-   
+    if (error) console.log("oops")
+
   };
 
   return (
