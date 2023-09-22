@@ -129,9 +129,10 @@ function Menu(props) {
 
   const addAClient = async () => {
     const clientData = {
+      id: 0,
       firstName: "Faraz",
       lastName: "Ahmed",
-      email: "farazahmedk955@@gmail.com",
+      email: "farazahmedk955@gmail.com",
       password: "secret123",
       phoneNum: "4523432",
       package: "lawayer",
@@ -141,9 +142,14 @@ function Menu(props) {
     const baseUrl = `https://localhost:7088`;
 
     try {
-      const { data } = await axios.post(`${baseUrl}/Client`, clientData, {
-        withCredentials: true,
+      const resp = await fetch(`${baseUrl}/Client`, {
+        method: "post",
+        body: JSON.stringify(clientData),
+        headers: {
+          "Content-type": "application/json",
+        },
       });
+      const data = await resp.text();
       console.log(data);
     } catch (err) {
       console.log(err);
