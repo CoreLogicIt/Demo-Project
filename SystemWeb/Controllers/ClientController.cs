@@ -78,13 +78,13 @@ namespace SystemWeb.Controllers
             catch (Exception ex)
             {
                 // Handle exceptions as needed
-                return StatusCode(500, "An error occurred while processing the request.");
+                return StatusCode(500, "An error occurred while processing the request");
             }
         }
 
 
         [HttpPost("paymentinstant")]
-        public async Task<IActionResult> Payment()
+        public async Task<IActionResult> Payment(int price)
         {
                 try
                 {
@@ -93,7 +93,7 @@ namespace SystemWeb.Controllers
                     var options = new PaymentIntentCreateOptions
                     {
                         
-                        Amount = 1999,
+                        Amount = price,
                         Currency = "EUR",
                        PaymentMethod = "pm_card_visa",
 
