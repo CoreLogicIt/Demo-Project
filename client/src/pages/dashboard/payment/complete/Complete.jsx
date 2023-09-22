@@ -42,7 +42,7 @@ const Complete = () => {
   // },[stripe,elements])
 
   return (
-    <div>Complete</div>
+    <div>Thank Your For Your Purchase</div>
   )
 }
 

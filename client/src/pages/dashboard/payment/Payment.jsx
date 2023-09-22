@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import { Elements } from "@stripe/react-stripe-js";
 
 import { loadStripe } from "@stripe/stripe-js";
 import Checkout from "../checkout/Checkout";
-import axios from "axios";
+
+import { PackagesContext } from "../../../context/packages/packages.context";
 
 const stripePromise = loadStripe(
   "pk_test_51NroDlJbGmGwd4KWyRTs6JIXMp72PgPDjY3UzGI06j3mzOGgIPTy5JQbdHCj8OiuqSJkZdsQqNyRA8aXdXKQlFsz00pOLZLQfL"
@@ -12,6 +13,8 @@ const stripePromise = loadStripe(
 
 const CheckoutForm = () => {
   const [clientSecret, setClientSecret] = useState(null);
+
+  const { userChoosenPackage } = useContext(PackagesContext);
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -21,7 +24,7 @@ const CheckoutForm = () => {
           {
             method: "post",
             body: JSON.stringify({
-              amount: 1,
+              amount: userChoosenPackage ? userChoosenPackage.price * 100 : 2 * 100,
             }),
             headers: {
               "Content-Type": "application/json",
@@ -36,7 +39,7 @@ const CheckoutForm = () => {
       }
     };
     fetchClientSecret();
-  }, []);
+  }, [userChoosenPackage]);
 
   return (
     <>

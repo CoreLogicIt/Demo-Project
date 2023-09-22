@@ -129,7 +129,7 @@ function Menu(props) {
 
   const addAClient = async () => {
     const clientData = {
-      Id :1,
+      id: 0,
       firstName: "Faraz",
       lastName: "Ahmed",
       email: "farazahmedk955@gmail.com",
@@ -143,15 +143,14 @@ function Menu(props) {
 
     try {
       const resp = await fetch(`${baseUrl}/Client`, {
-        method:"post",
-        body:JSON.stringify(clientData),
-        headers:{
-          "Content-Type":"application/json"
-        }
+        method: "post",
+        body: JSON.stringify(clientData),
+        headers: {
+          "Content-type": "application/json",
+        },
       });
-     const data = await resp.json()
-     console.log(data)
-
+      const data = await resp.text();
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
