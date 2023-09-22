@@ -24,7 +24,9 @@ const CheckoutForm = () => {
           {
             method: "post",
             body: JSON.stringify({
-              amount: userChoosenPackage ? userChoosenPackage.price * 100 : 2 * 100,
+              amount: userChoosenPackage
+                ? userChoosenPackage.price * 100
+                : 2 * 100,
             }),
             headers: {
               "Content-Type": "application/json",

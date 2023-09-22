@@ -78,7 +78,11 @@ namespace SystemWeb.Controllers
             catch (Exception ex)
             {
                 // Handle exceptions as needed
+<<<<<<< HEAD
+                return StatusCode(500, "An error occurred while processing the request today.");
+=======
                 return StatusCode(500, "An error occurred while processing the request .");
+>>>>>>> f58335a656c839478fbc00437d525683804fbd01
             }
         }
 
